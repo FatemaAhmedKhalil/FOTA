@@ -25,7 +25,7 @@ The Flashing Over the Air (FOTA) project, is dedicated to crafting a robust firm
 - Robust implementation of Bootloader functionality, enabling smooth firmware updates while maintaining system stability.
 
 - Creation of JavaScript modules proficient in handling Hexa and Motorola file formats, streamlining the firmware update process.
-- 
+ 
 - Establishment of secure and reliable wireless communication utilizing the ESP8266 Wi-Fi module, facilitating confident Over the Air (OTA) updates.
 
 - Integration of enhanced security measures to bolster the reliability and integrity of firmware updates transmitted over Wi-Fi.
