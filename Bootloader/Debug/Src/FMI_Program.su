@@ -1,0 +1,6 @@
+../Src/FMI_Program.c:18:6:FMI_voidLock	4	static
+../Src/FMI_Program.c:23:6:FMI_voidUnlock	4	static
+../Src/FMI_Program.c:32:6:FMI_voidLockOTP	4	static
+../Src/FMI_Program.c:37:6:FMI_voidUnlockOTP	4	static
+../Src/FMI_Program.c:43:6:FMI_voidErase	24	static
+../Src/FMI_Program.c:87:4:FMI_u8FlashWrite	24	static

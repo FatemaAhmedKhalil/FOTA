@@ -1,0 +1,10 @@
+../Src/GPIO_Program.c:18:4:GPIO_u8SetGPIOPinMode	24	static
+../Src/GPIO_Program.c:48:4:GPIO_u8SetOutputPinMode	24	static
+../Src/GPIO_Program.c:86:4:GPIO_u8SetPinValue	24	static
+../Src/GPIO_Program.c:124:4:GPIO_u8FastControlPinValue	24	static
+../Src/GPIO_Program.c:162:4:GPIO_u8SetPortValue	24	static
+../Src/GPIO_Program.c:177:4:GPIO_u8GetPinValue	24	static
+../Src/GPIO_Program.c:196:4:GPIO_u8TogglePinValue	24	static
+../Src/GPIO_Program.c:215:4:GPIO_u8SetPullResMode	24	static
+../Src/GPIO_Program.c:245:4:GPIO_voidSetAlternativeFunction	24	static
+../Src/GPIO_Program.c:301:4:GPIO_u8SetPinOutputSpeed	24	static
