@@ -45,28 +45,6 @@ int main(void)
 	USART_voidInitialization(&UART, &UARTCLOCK, USART1);
 	USART_Enable(USART1);
 
-//	FMI_WriteTypeDef FlashProgram;
-//	FlashProgram.BaseAddress = 0x08004000;
-//	FlashProgram.Parallelism = FMI_PAR_WORD;
-//	FlashProgram.Data = 0x0020043;
-//	FMI_voidUnlock();
-//	FMI_u8FlashWrite(&FlashProgram);
-//
-//	FlashProgram.BaseAddress = 0x08008000;
-//	FlashProgram.Parallelism = FMI_PAR_WORD;
-//	FlashProgram.Data = 0x0055043;
-//	FMI_u8FlashWrite(&FlashProgram);
-//	FMI_voidLock();
-
-//	FMI_EraseTypeDef FlashErase;
-//	FlashErase.EraseType = FMI_SectorErase;
-//	FlashErase.Parallelism = FMI_PAR_WORD;
-//	FlashErase.StartSector = FMI_SECTOR_1;
-//	FlashErase.EndSector = FMI_SECTOR_2;
-//	FMI_voidUnlock();
-//	FMI_voidErase(&FlashErase);
-//	FMI_voidLock();
-
 	while(1)
 	{
 		/***** Bootloader *****/

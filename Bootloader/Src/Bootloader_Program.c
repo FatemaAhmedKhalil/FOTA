@@ -17,8 +17,6 @@
 #include "CRC_Interface.h"
 #include "FMI_Interface.h"
 
-/********** Global Variables Deceleration**********/
-
 void BL_FeatchHostCmd()
 {
 	u8 BL_HostBuffer[BL_HostSize] = {0};
@@ -147,13 +145,13 @@ u8 BL_u8ExcuteFlashErase(u32 u32SectorNumber, u8 u8NumberOfSectors)
 	u8 SectorStatus = INVALID_SECTOR_NUMBER;
 	FMI_EraseTypeDef FlashErase;
 
-//	if((u32SectorNumber > FLASH_MAX_NUM_SECTROS-1) && (u8NumberOfSectors != CBL_FLASH_MASS_ERASE))
-//		SectorStatus = INVALID_SECTOR_NUMBER;
-//
-//	else if((u32SectorNumber > FLASH_MAX_NUM_SECTROS) && (u8NumberOfSectors != CBL_FLASH_MASS_ERASE))
-//		SectorStatus = INVALID_SECTOR_NUMBER;
+	if((u32SectorNumber > FLASH_MAX_NUM_SECTROS-1) && (u8NumberOfSectors != CBL_FLASH_MASS_ERASE))
+		SectorStatus = INVALID_SECTOR_NUMBER;
 
-	if(1)
+	else if((u32SectorNumber > FLASH_MAX_NUM_SECTROS) && (u8NumberOfSectors != CBL_FLASH_MASS_ERASE))
+		SectorStatus = INVALID_SECTOR_NUMBER;
+
+	else
 	{
 		if (u32SectorNumber == CBL_FLASH_MASS_ERASE)
 			FlashErase.EraseType = FMI_MassErase;
@@ -221,9 +219,10 @@ u8 BL_voidFlashWrite(u8 *ptru8HostBuffer)
 	if (BL_AKN == BL_u8CRC(ptru8HostBuffer, HostPacketLength-CRC_Length, CRCValue))
 	{
 		BL_voidSendACK(1);
-		AddressStatus = BL_AddressVarification(*((u32*)&ptru8HostBuffer[2]));
+		u32 BaseAddress = *((u32*)&ptru8HostBuffer[2]);
+		AddressStatus = BL_AddressVarification(BaseAddress);
 		if (AddressStatus == VALID_ADDRESS)
-			WriteStatus = BL_u8ExcuteFlashPayloadWrite((u16*)&ptru8HostBuffer[7] ,*((u32*)&ptru8HostBuffer[2]), ptru8HostBuffer[6]);
+			WriteStatus = BL_u8ExcuteFlashPayloadWrite((u8*)&ptru8HostBuffer[7], BaseAddress, ptru8HostBuffer[6]);
 		else
 			WriteStatus = FLASH_PAYLOAD_WRITE_FAILED;
 	}
@@ -251,7 +250,7 @@ u8 BL_AddressVarification(u32 u32Address)
 	return AddressStatus;
 }
 
-u8 BL_u8ExcuteFlashPayloadWrite(u16 *ptru8Data, u32 u32StartAddress, u8 u8Length)
+u8 BL_u8ExcuteFlashPayloadWrite(u8 *ptru8Data, u32 u32StartAddress, u8 u8Length)
 {
 	u8 PayloadStatus = FLASH_PAYLOAD_WRITE_FAILED;
 
@@ -259,13 +258,13 @@ u8 BL_u8ExcuteFlashPayloadWrite(u16 *ptru8Data, u32 u32StartAddress, u8 u8Length
 	if((u32StartAddress >= FLASH_START) && (u32StartAddress <= FLASH_END))
 	{
 		FMI_WriteTypeDef FlashProgram;
-		FlashProgram.Parallelism = FMI_PAR_HWORD;
+		FlashProgram.Parallelism = FMI_PAR_BYTE;
 
 		FMI_voidUnlock();
-		for(u8 iterator = 0; iterator < u8Length; u8Length++)
+		for(u8 iterator = 0; iterator < u8Length; iterator++)
 		{
 			FlashProgram.Data = ptru8Data[iterator];
-			FlashProgram.BaseAddress = u32StartAddress+2;
+			FlashProgram.BaseAddress = u32StartAddress+iterator;
 			if (FMI_u8FlashWrite(&FlashProgram) == 0)
 				PayloadStatus = FLASH_PAYLOAD_WRITE_PASSED;
 		}

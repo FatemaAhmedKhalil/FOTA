@@ -39,6 +39,6 @@ u8 BL_u8ExcuteFlashErase(u32 u32SectorNumber, u8 u8NumberOfSectors);
 u8 BL_voidFlashErase(u8 *ptru8HostBuffer);
 u8 BL_voidFlashWrite(u8 *ptru8HostBuffer);
 u8 BL_AddressVarification(u32 u32Address);
-u8 BL_u8ExcuteFlashPayloadWrite(u16 *ptru8Data, u32 u32StartAddress, u8 u8Length);
+u8 BL_u8ExcuteFlashPayloadWrite(u8 *ptru8Data, u32 u32StartAddress, u8 u8Length);
 
 #endif
