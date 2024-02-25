@@ -1,4 +1,4 @@
-# Bootloader README
+# Bootloader
 
 ## Overview
 The bootloader code for the STM32F401FCCU microcontroller. The bootloader is responsible for initializing the hardware and facilitating firmware updates on the microcontroller.
