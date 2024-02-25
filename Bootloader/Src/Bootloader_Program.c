@@ -261,7 +261,7 @@ u8 BL_u8ExcuteFlashPayloadWrite(u8 *ptru8Data, u32 u32StartAddress, u8 u8Length)
 		FlashProgram.Parallelism = FMI_PAR_BYTE;
 
 		FMI_voidUnlock();
-		for(u8 iterator = 0; iterator < u8Length; iterator++)
+		for(u32 iterator = 0; iterator < u8Length; iterator++)
 		{
 			FlashProgram.Data = ptru8Data[iterator];
 			FlashProgram.BaseAddress = u32StartAddress+iterator;
