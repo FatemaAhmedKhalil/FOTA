@@ -29,12 +29,12 @@ void BL_FeatchHostCmd()
 
 	switch(BL_HostBuffer[1]) // Switch on the Command
 	{
-		case CBL_GET_VER_CMD	: BL_voidGetVersion(BL_HostBuffer); break;
-		case CBL_GET_HELP_CMD	: BL_voidGetHelp(BL_HostBuffer); 	break;
-		case CBL_GET_CID_CMD	: BL_voidGetChipID(BL_HostBuffer); 	break;
+		case CBL_GET_VER_CMD	: BL_voidGetVersion(BL_HostBuffer); 	break;
+		case CBL_GET_HELP_CMD	: BL_voidGetHelp(BL_HostBuffer); 		break;
+		case CBL_GET_CID_CMD	: BL_voidGetChipID(BL_HostBuffer); 		break;
 		case CBL_GO_TO_ADDR_CMD	: break;
-		case CBL_FLASH_ERASE_CMD: BL_voidFlashErase(BL_HostBuffer); break;
-		case CBL_MEM_WRITE_CMD	: BL_voidFlashWrite(BL_HostBuffer); break;
+		case CBL_FLASH_ERASE_CMD: BL_voidFlashErase(BL_HostBuffer); 	break;
+		case CBL_MEM_WRITE_CMD	: BL_voidFlashWrite(BL_HostBuffer); 	break;
 		default: BL_voidSendNACK();
 	}
 }
