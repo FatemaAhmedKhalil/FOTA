@@ -1,2 +1,0 @@
-../Src/CRC_Program.c:17:5:CRC_u32Accumulate	24	static
-../Src/CRC_Program.c:28:6:CRC_voidReset	4	static
