@@ -20,9 +20,9 @@ The Flashing Over the Air (FOTA) project, is dedicated to crafting a robust firm
 
 - Continual refinement of the Flash Driver to optimize efficiency and broaden compatibility across a diverse array of ARM microcontrollers.
 
-### Future Work
-
 - Robust implementation of Bootloader functionality, enabling smooth firmware updates while maintaining system stability.
+
+### Future Work
 
 - Creation of JavaScript modules proficient in handling Hexa and Motorola file formats, streamlining the firmware update process.
  
