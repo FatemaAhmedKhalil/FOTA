@@ -1,33 +1,66 @@
-## Flashing Over the Air (FOTA) Project
+# FOTA (Firmware Over-The-Air) Project with STM32F401CCU6 and ESP32
 
-### Overview
+This project focuses on enabling efficient and secure **Firmware Over-The-Air (FOTA)** updates for IoT devices, leveraging the power of **STM32F401CCU6** and **ESP32** microcontrollers. This solution is crucial for remotely maintaining devices by eliminating the need for physical access during firmware updates.
 
-The Flashing Over the Air (FOTA) project, is dedicated to crafting a robust firmware update system tailored explicitly for ARM microcontrollers, with a primary focus on the STM32 series. This endeavor encompasses the development of a specialized Flash Driver, incorporation of Bootloader functionality, and integration of Wi-Fi communication modules to facilitate wireless updates.
+## Hardware Setup
+- **STM32F401CCU6**: The target microcontroller that receives firmware updates.
+- **ESP32**: Acts as the host, managing file downloads and UART communication.
+- **UART Communication**: 
+  - Data is transferred via **Serial0**.
+  - **GPIO15** of ESP32 is connected to the ground to initiate **bootloader mode** on STM32 for flashing operations.
 
-### Key Responsibilities
+## Wi-Fi & Firebase Integration
+- **ESP32** connects to Wi-Fi and retrieves the latest firmware hex file from **Firebase Storage**.
+- **STM32’s Flash Memory** is erased at the application start address (`0x8008000`) before flashing the new firmware to ensure a clean memory space.
 
-- **Flash Driver Development:** Creation of a tailored Flash Driver optimized for ARM microcontrollers, particularly emphasizing efficient memory management for streamlined firmware updates.
+## Flash Driver Development
+A customized **Flash Driver** was developed for **ARM microcontrollers** (specifically STM32) to handle the firmware updates efficiently. The driver is optimized for memory management, which is critical for ensuring smooth and reliable firmware updates.
 
-- **Bootloader Functionality:** Implementation of Bootloader functionality to ensure firmware updates, prioritizing compatibility and system reliability.
+## Bootloader Functionality
+The STM32 bootloader plays a critical role in receiving and flashing new firmware. The following commands are sent from ESP32 to STM32 over UART:
 
-- **File Format Handling:** Utilization of JavaScript to adeptly manage Hexa and Motorola file formats, essential components for facilitating firmware updates on ARM microcontrollers.
+1. **`send_CBL_GO_TO_ADDR_CMD(uint32_t u32Address)`**: 
+   - Instructs STM32 to jump to the application address after flashing.
+   
+2. **`send_CBL_FLASH_ERASE_CMD(uint8_t u8SectorNumber, uint8_t u8NumberOfSectors)`**: 
+   - Erases specific flash memory sectors before writing the new firmware.
+   
+3. **`send_CBL_MEM_WRITE_CMD(uint32_t u32Address, uint8_t Data[WriteDataUnit])`**: 
+   - Writes the parsed firmware data from ESP32 to STM32’s memory.
 
-- **Wi-Fi Communication:** Integration of the ESP8266 Wi-Fi module to establish robust wireless communication for the FOTA system, guaranteeing secure and reliable transmission of firmware updates over Wi-Fi.
+This bootloader was implemented with a strong focus on **compatibility** and **system reliability**, ensuring that updates do not corrupt the device and that the microcontroller can always recover from interrupted updates.
 
-### Achievements
+## File Format Handling
+The project adeptly handles **Hexadecimal (Intel Hex)** and **Motorola S-record** file formats, both commonly used in firmware updates for ARM microcontrollers. **JavaScript** was utilized to parse and manage these file formats, which are essential for loading firmware data onto the microcontroller.
 
-- Successful development and integration of a specialized Flash Driver tailored for ARM microcontrollers, enhancing memory management for efficient firmware updates.
+## Wi-Fi Communication
+The **ESP8266 Wi-Fi module** was integrated into the FOTA system to establish **robust wireless communication**. This guarantees **secure and reliable transmission** of firmware updates over Wi-Fi, ensuring that the updates are both safe and timely.
 
-- Continual refinement of the Flash Driver to optimize efficiency and broaden compatibility across a diverse array of ARM microcontrollers.
+## Parsing the Hex File
+ESP32 downloads the firmware hex file from Firebase, parses it into binary data, and writes **8 bytes at a time** to STM32, ensuring accurate flashing over UART.
 
-- Robust implementation of Bootloader functionality, enabling smooth firmware updates while maintaining system stability.
+## Overcoming Serial Communication Issues
+Initially, there were issues with **false data transmission** during the serial setup, leading to unexpected behavior.
 
-### Future Work
+### Solution:
+- I used **`Serial.end()`** to temporarily halt the Serial communication.
+- **`Serial.begin(115200)`** is restarted just before actual data transfer, ensuring no erroneous data is sent.
 
-- Creation of JavaScript modules proficient in handling Hexa and Motorola file formats, streamlining the firmware update process.
- 
-- Establishment of secure and reliable wireless communication utilizing the ESP8266 Wi-Fi module, facilitating confident Over the Air (OTA) updates.
+## Process Flow
+1. **ESP32 connects to Wi-Fi** and downloads the latest hex file from Firebase.
+2. **STM32’s flash memory is erased** using `send_CBL_FLASH_ERASE_CMD`.
+3. **ESP32 parses and writes the hex file** to STM32 using `send_CBL_MEM_WRITE_CMD`.
+4. **STM32 is instructed to jump** to the new firmware's address using `send_CBL_GO_TO_ADDR_CMD`.
+5. **STM32 resets**, and the new firmware is executed seamlessly without interruption.
 
-- Integration of enhanced security measures to bolster the reliability and integrity of firmware updates transmitted over Wi-Fi.
+---
 
-- Exploration of advanced techniques aimed at further optimizing the firmware update process and reducing associated overhead.
+## Future Improvements
+- Add support for secure firmware downloads to further improve system integrity.
+- Implement real-time progress monitoring for firmware updates.
+
+---
+
+## Contributing
+Feel free to submit issues or pull requests if you'd like to contribute!
+
