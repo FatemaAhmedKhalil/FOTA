@@ -30,8 +30,6 @@ The STM32 bootloader plays a critical role in receiving and flashing new firmwar
 
 This bootloader was implemented with a strong focus on **compatibility** and **system reliability**, ensuring that updates do not corrupt the device and that the microcontroller can always recover from interrupted updates.
 
-## File Format Handling
-The project adeptly handles **Hexadecimal (Intel Hex)** and **Motorola S-record** file formats, both commonly used in firmware updates for ARM microcontrollers. **JavaScript** was utilized to parse and manage these file formats, which are essential for loading firmware data onto the microcontroller.
 
 ## Wi-Fi Communication
 The **ESP8266 Wi-Fi module** was integrated into the FOTA system to establish **robust wireless communication**. This guarantees **secure and reliable transmission** of firmware updates over Wi-Fi, ensuring that the updates are both safe and timely.
